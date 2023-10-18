@@ -5,7 +5,7 @@ import asyncio
 import psutil
 
 async def record_usage(self, ctx):
-    channel_id = 1154133781758881874
+    channel_id = "COMMAND_USAGE_CHANNEL_ID"
     # Getting the channel
     channel = self.bot.get_channel(channel_id)
     embed = discord.Embed(title = 'Command Usage', description = f'**{ctx.author}** used `^{ctx.command}` at `{ctx.guild.name}`', color=ctx.author.color)
@@ -77,7 +77,7 @@ class Info(commands.Cog):
     @commands.before_invoke(record_usage)
     async def invite(self, ctx):
         "Invite me!"
-        av_button = discord.ui.Button(label='Invite Now!', url = 'https://discord.com/oauth2/authorize?client_id=1055437102042599445&permissions=844975303806&scope=bot%20applications.commands')
+        av_button = discord.ui.Button(label='Invite Now!', url = 'BOT_INVITE_URL')
         view = discord.ui.View()
         view.add_item(av_button)
         await ctx.send('Invite me to your server.\nYou can also click invite button on my profile!')
@@ -88,7 +88,7 @@ class Info(commands.Cog):
     @commands.before_invoke(record_usage)
     async def support(self, ctx):
         "Do you have queries about me? Join support server now!"
-        av_button = discord.ui.Button(label='Support Server!', url = 'https://discord.gg/pdbvV6h5cS')
+        av_button = discord.ui.Button(label='Support Server!', url = 'SUPPORT_SERVER_URL')
         view = discord.ui.View()
         view.add_item(av_button)
         await ctx.send('You can join my support server by clicking button below.\nYou can report bugs, request new features.')
@@ -99,8 +99,8 @@ class Info(commands.Cog):
     @commands.before_invoke(record_usage)
     async def vote(self, ctx):
         "Vote me please!"
-        av_button = discord.ui.Button(label='Vote me at DBL!', url = 'https://discordbotlist.com/bots/aromic/upvote')
-        av_but = discord.ui.Button(label="Vote me at Top.gg!", url = "https://top.gg/bot/1055437102042599445/vote")
+        av_button = discord.ui.Button(label='Vote me at DBL!', url = 'DBL_VOTE_LINK')
+        av_but = discord.ui.Button(label="Vote me at Top.gg!", url = "TOPGG_VOTE_LINK")
         view = discord.ui.View()
         view.add_item(av_button)
         view.add_item(av_but)
