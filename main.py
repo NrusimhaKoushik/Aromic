@@ -28,7 +28,7 @@ class MyBot(commands.Bot):
         self.synced=False
     
     async def on_ready(self):
-        channel = bot.get_channel(1133036643499130981)
+        channel = bot.get_channel("ONLINE_INFO_CHANNEL_ID")
         await bot.wait_until_ready()
         await bot.change_presence(activity = discord.Activity(type = discord.ActivityType.watching, name = f'{len(bot.guilds)} Servers.'),status=discord.Status.idle)
 
