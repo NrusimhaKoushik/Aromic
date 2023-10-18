@@ -72,10 +72,10 @@ class Pokemon(commands.Cog):
                                                 Defense: {p_json['stats'][2]['base_stat']}
                                                 Special Attack: {p_json['stats'][3]['base_stat']}
                                                 Special Defense: {p_json['stats'][4]['base_stat']}
-                                                Speed: {p_json['stats'][5]['base_stat']}""", inline=True)
+                                                Speed: {p_json['stats'][5]['base_stat']}""", inline=False)
 
-            embed.add_field(name="Abilities", value='\n'.join([a['ability']['name'].title() for a in p_json['abilities']]), inline=True)
-            embed.add_field(name="Moves", value='\n'.join([m['move']['name'].title() for m in p_json['moves'][:5]]), inline=True)
+            embed.add_field(name="Abilities", value='\n'.join([a['ability']['name'].title() for a in p_json['abilities']]), inline=False)
+            embed.add_field(name="Moves", value='\n'.join([m['move']['name'].title() for m in p_json['moves'][:5]]), inline=False)
             embed.set_image(url=sprite)
             await ctx.send(embed=embed)
 
