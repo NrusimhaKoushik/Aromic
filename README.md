@@ -9,7 +9,7 @@ Aromic is a Multipurpose Discord Bot made by **Oprah#6551**.
 - Easy to make your own commands
 - Community Cogs (coming soon, join our [discord server](https://discord.gg/pdbvV6h5cS) for updates)
 
-> [!IMPORTANT]
+> [!NOTE]
 > Install all the libraries by
 > ```
 > pip install -r requirements.txt
