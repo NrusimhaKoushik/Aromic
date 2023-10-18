@@ -15,9 +15,9 @@ async def getprefix(bot, message):
     else:
         db.guild.insert_one({
             "_id": message.guild.id,
-            "prefix": "^"
+            "prefix": "DEFAULT_PREFIX"
             })
-        return "^"
+        return "DEFAULT_PREFIX"
 
 intents = discord.Intents.default()
 intents.message_content=True
@@ -30,7 +30,7 @@ class MyBot(commands.Bot):
     async def on_ready(self):
         channel = bot.get_channel(1133036643499130981)
         await bot.wait_until_ready()
-        await bot.change_presence(activity = discord.Activity(type = discord.ActivityType.watching, name = f'{len(bot.guilds)} Servers.'))
+        await bot.change_presence(activity = discord.Activity(type = discord.ActivityType.watching, name = f'{len(bot.guilds)} Servers.'),status=discord.Status.idle)
 
         bot.db = await aiosqlite.connect("level.db")
         await asyncio.sleep(3)
@@ -46,8 +46,6 @@ class MyBot(commands.Bot):
         # print(f"Logged in as {bot.user}")
         await channel.send("Systems Online!!")
 
-        # my_background_task.start()
-
     async def setup_hook(self):
         for name in os.listdir('cogs'):
             if name.endswith('.py'):
@@ -58,19 +56,6 @@ class MyBot(commands.Bot):
                     print(f'cogs.{name[:-3]} cannot be loaded. [{error}]')
 
 bot = MyBot()
-
-@tasks.loop(seconds=10.0)
-async def my_background_task():
-    """Will loop every 60 seconds and change the bots presence"""
-    # total_members = 0
-    # for guild in bot.guilds:
-    #     total_members += guild.member_count
-    # stat = [
-    #     f'{total_members} Peps with shrewd powers',
-    #     f"{len(bot.guilds)} Servers"
-    #     ]
-    # rand_status = random.choice(stat)
-    await bot.change_presence(status=discord.Status.idle,activity=discord.Game(name = f"{len(bot.guilds)} Servers"))
 
 @bot.command()
 async def sync(ctx, guilds: commands.Greedy[discord.Object], spec: Optional[Literal["~", "*", "^"]] = None) -> None:
@@ -102,6 +87,7 @@ async def sync(ctx, guilds: commands.Greedy[discord.Object], spec: Optional[Lite
     await ctx.send(f"Synced the tree to {ret}/{len(guilds)}.")
 
 # Works like:
+# If "!" is default prefix:
 # !sync -> global sync
 # !sync ~ -> sync current guild
 # !sync * -> copies all global app commands to current guild and syncs
