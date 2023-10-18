@@ -33,7 +33,7 @@ images =   ['```\n   +---+\n   O   | \n  /|\\  | \n  / \\  | \n      ===```',
 ship_board = ["```  A B C D E F G H\n1| | | | | | | | |\n2| | | | | | | | |\n3| | | | | | | | |\n4| | | | | | | | |\n5| | | | | | | | |\n6| | | | | | | | |\n7| | | | | | | | |\n8| | | | | | | | |```"]
 
 async def record_usage(self, ctx):
-    channel_id = 1154133781758881874
+    channel_id = "COMMAND_USAGE_CHANNEL_ID"
     # Getting the channel
     channel = self.bot.get_channel(channel_id)
     embed = discord.Embed(title = 'Command Usage', description = f'**{ctx.author}** used `^{ctx.command}` at `{ctx.guild.name}`', color=ctx.author.color)
@@ -121,10 +121,9 @@ class Games(commands.Cog):
             await botMsg.add_reaction(emoji)
         
         bChoice=random.choice(rpsEmojis)
-        #await ctx.send(bChoice)
         
         def rpsaction(reaction, user):
-            return user != self.bot.user and user == ctx.author and (str(reaction.emoji) in rpsEmojis) #'🌑' or '📄' or '✂')            
+            return user != self.bot.user and user == ctx.author and (str(reaction.emoji) in rpsEmojis))            
         
         try:
             response,_ = await self.bot.wait_for("reaction_add",check=rpsaction,timeout=30)
@@ -250,7 +249,6 @@ class Games(commands.Cog):
                     return m.author == ctx.author and m.channel == ctx.channel
             await ctx.send(f'{cr_player.mention}, enter your square below!')
             msg2 = ''
-            #loop for square input
             while msg2 not in tdict:
                 msg = await self.bot.wait_for('message',check=check)
                 msg2 = msg.content
@@ -266,14 +264,12 @@ class Games(commands.Cog):
                 canbed = discord.Embed(title='Canceled',description=f'{cr_player.name} canceled the game :(',color=discord.Color.red())
                 await ctx.send(embed=canbed)
                 return
-            #changing of tdict according to the input
             sq = msg.content.lower()
             if tdict[sq] == bl:
                 if cr_player == member:
                     tdict[sq] = cr
                 else:
                     tdict[sq] = cl
-            #formatting of tdict to the string
             tttstr = ''
             for item in tlist:
                 tttstr += tdict[item]
@@ -283,7 +279,6 @@ class Games(commands.Cog):
             embed.set_footer(text='The game works on a grid system. For example "1" for the \ntop left corner and "9" for the bottom right corner.')
             await emb.edit(embed=embed)
             await ctx.send(tttstr)
-            #game ending logic
             for item in combinations:
                 if (tdict[item[0]] == cl and tdict[item[1]] == cl and tdict[item[2]] == cl) or (tdict[item[0]] == cr and tdict[item[1]] == cr and tdict[item[2]] == cr):
                     isFinished = True
@@ -294,12 +289,10 @@ class Games(commands.Cog):
                     allFilled = True
                     isFinished = True
                     break
-            #player switching
             if cr_player == member:
                 cr_player = player 
             else:
                 cr_player = member
-        #game end
         if winner == None:
             em2 = discord.Embed(title='No one won :(',description='No one won the tictactoe game!',color=discord.Color.red())
         else:
@@ -312,7 +305,7 @@ class Games(commands.Cog):
         if isinstance(error, commands.MissingRequiredArgument):
             await ctx.send("Please mention a member to play this game.")
         elif isinstance(error, commands.BadArgument):
-            await ctx.send("Please make sure to mention/ping players (ie. <@1055437102042599445>).")
+            await ctx.send("Please make sure to mention/ping players.")
 
 
     @commands.hybrid_command()
@@ -325,7 +318,6 @@ class Games(commands.Cog):
 
         let_to_num={'A':0,'B':1, 'C':2,'D':3,'E':4,'F':5,'G':6,'H':7}
 
-        #await ctx.send("```  A B C D E F G H\n%d|%s|```" % (row_num, "|".join(row)))
         await ctx.send(ship_board[0])
         
 
