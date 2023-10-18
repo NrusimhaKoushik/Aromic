@@ -4,7 +4,7 @@ from aiohttp import ClientSession
 from config import APOD_API
 
 async def record_usage(self, ctx):
-    channel_id = 1154133781758881874
+    channel_id = "COMMAND_USAGE_CHANNEL_ID"
     # Getting the channel
     channel = self.bot.get_channel(channel_id)
     embed = discord.Embed(title = 'Command Usage', description = f'**{ctx.author}** used `^{ctx.command}` at `{ctx.guild.name}`', color=ctx.author.color)
@@ -52,9 +52,6 @@ class Space(commands.Cog):
 
                     format_date = datetime.date(int(year), int(month), int(date))
                     name = format_date.strftime("%B %d, %Y")
-
-                    # dt = datetime.datetime.now()
-                    # name = f"<t:{int(dt.timestamp())}:D>"
 
                     embed = discord.Embed(title=title, description=f'{description}', color = discord.Color.random())
                     embed.set_author(name=f'Astronomy Picture Of the Day')
