@@ -9,7 +9,7 @@ default = password
 uniq_pass = random.randint(100000, 999999)
 
 async def record_usage(self, ctx):
-    channel_id = 1154133781758881874
+    channel_id = "COMMAND_USAGE_CHANNEL_ID"
     # Getting the channel
     channel = self.bot.get_channel(channel_id)
     embed = discord.Embed(title = 'Command Usage', description = f'**{ctx.author}** used `^{ctx.command}` at `{ctx.guild.name}`', color=ctx.author.color)
@@ -22,12 +22,12 @@ async def getprefix(bot, message):
     else:
         db.guild.insert_one({
             "_id": message.guild.id,
-            "prefix": "^"
+            "prefix": "DEFAULT_PREFIX"
             })
-        return "^"
+        return "DEFAULT_PREFIX"
 
 def topgg_votecheck(user):
-    url = f"https://top.gg/api/bots/1055437102042599445/check?userId={user.id}"
+    url = f"https://top.gg/api/bots/BOT_ID/check?userId={user.id}"
     r = requests.get(url)
     data = json.loads(r.text)
     print(data)
@@ -41,7 +41,7 @@ def topgg_votecheck(user):
 
 def dbl_votecheck(user):
     headers = {'Authorization': DISCORD_BOT_LIST_TOKEN}
-    response = requests.get(f'https://discordbotlist.com/api/v1/bots/1055437102042599445/upvotes', headers=headers)
+    response = requests.get(f'https://discordbotlist.com/api/v1/bots/BOT_ID/upvotes', headers=headers)
     try:
         if response.status_code == 200:
             votes = response.json().get('upvotes')
@@ -148,20 +148,10 @@ class Economy(commands.Cog):
     @commands.before_invoke(record_usage)
     async def create(self, interaction: Interaction):
         """Create account for economy system."""
-        # user = interaction.user.id
-        # guild = interaction.guild.id
-        # me = ctx.me
-        # overwrites = {
-        #     guild.default_role: discord.PermissionOverwrite(read_messages=False, send_messages=False),
-        #     user: discord.PermissionOverwrite(read_messages=True, send_messages= True),
-        #     me: discord.PermissionOverwrite(read_messages=True, send_messages=True)
-        # }
-
         c =  self.db.mycol.find_one({"_id":interaction.user.id})
         
         if c is None:
             await self.create_account(interaction.user.id)
-            # await self.create_inv(ctx.author)
             modal = CreateModal()
             modal.user = interaction.user
             await interaction.response.send_modal(CreateModal())
@@ -389,9 +379,6 @@ class Economy(commands.Cog):
         em = discord.Embed(title='',description=f'**{ctx.author}** has send you **{amount}** coin(s), added to your wallet. Dont forget to Thank him.', color=discord.Color.random())
         await user.send(embed=em)
 
-        # em2=discord.Embed(title='',description=f"You sent **{user}** **{amount}** coin(s) from your wallet. Lucky him to have a friend like you!!",color=discord.Color.random())
-        # await ctx.author.send(embed=em2)
-
     @commands.hybrid_command()
     @commands.guild_only()
     @commands.before_invoke(record_usage)
@@ -618,283 +605,6 @@ class Economy(commands.Cog):
             view.add_item(av_but)
             embed = discord.Embed(title="",description="🛑 | Unfortunately this command is vote locked and you'll need to vote for Aromic!", color = discord.Color.random())
             return await ctx.send(embed=embed, view=view)
-
-    # @commands.hybrid_command()
-    # @commands.guild_only()
-    # @commands.before_invoke(record_usage)
-    # async def account(self, ctx):
-    #     user = ctx.author
-    #     guild = ctx.guild
-    #     me = ctx.me
-    #     overwrites = {
-    #         guild.default_role: discord.PermissionOverwrite(read_messages=False, send_messages=False),
-    #         user: discord.PermissionOverwrite(read_messages=True, send_messages= True),
-    #         me: discord.PermissionOverwrite(read_messages=True, send_messages=True)
-    #     }
-    #     numbers=['1️⃣', '2️⃣','3️⃣', '❌']
-
-    #     c = self.db.mycol.find_one({"_id":ctx.author.id})
-
-    #     if c is not None:
-    #         wallet = c['wallet']
-    #         bank = c['bank']
-    #         maxbank = c['maxbank']
-    #         transactions = c['description']
-    #         uniq = c['unique_id']
-    #         pasw = c['password']
-
-    #         p = "*" * len(pasw)
-    #         uniq12 = "*" * len(str(uniq))
-
-    #         if transactions == []:
-    #             transactions = 'No transactions are done.'
-
-    #         channel = await guild.create_text_channel(f'{user}', overwrites=overwrites)
-    #         await ctx.send(f'To login into you account go to {channel}{channel.mention}.')
-    #         await channel.send(f"{user.mention}")
-    #         await asyncio.sleep(1)
-    #         await channel.send("Enter Password: ")
-
-    #         def check(m):
-    #             return m.author == ctx.author and m.channel == channel
-
-    #         try:
-    #             while True:
-    #                 message = await self.bot.wait_for('message', timeout=20.0, check = check)
-    #                 if c['password'] == message.content:
-    #                     await channel.send(f"Login Successful! You can return to {ctx.channel.mention}")
-    #                     await asyncio.sleep(2)
-    #                     await channel.delete()
-    #                     break
-    #                 else:
-    #                     await channel.send("Incorrect Password.")
-    #                     continue
-
-                
-    #             embed = discord.Embed(title = 'What do you want to check?', description = '1. Profile\n2. Balance\n3. Transactions', color = discord.Color.random())
-    #             embed.set_footer(text = 'Just react to the number you want to check in the chat.')
-    #             msg = await ctx.send(embed = embed)
-
-    #             for number in numbers:
-    #                 await msg.add_reaction(number)
-
-    #             while True:
-    #                 def react(reaction, user):
-    #                     return user != self.bot.user and user == ctx.author and (str(reaction.emoji) in numbers)
-                    
-    #                 response,_ =await self.bot.wait_for("reaction_add",check=react,timeout=30)
-
-    #                 if response.emoji == '1️⃣':
-    #                     embed = discord.Embed(title=f"{ctx.author.name}'s Profile", color = discord.Color.random())
-    #                     embed.add_field(name='Wallet', value=wallet)
-    #                     embed.add_field(name='Bank',value=f'{bank}/{maxbank}')
-    #                     embed.set_thumbnail(url=user.display_avatar.url)
-    #                     embed.add_field(name='Transactions', value=f'{transactions}')
-    #                     embed.add_field(name='Password', value=f'{p}')
-    #                     embed.add_field(name='Unique ID', value=f'{uniq12}')
-    #                     embed.set_footer(text = '* For security reasons, password and unique id was hidden.')
-    #                     await ctx.send(embed= embed)
-    #                     await asyncio.sleep(3)
-    #                     one_msg = await ctx.send('Need to check anything else?')
-
-    #                     for number in numbers:
-    #                         await one_msg.add_reaction(number)
-    #                     continue
-
-    #                 elif response.emoji == '2️⃣':
-    #                     em=discord.Embed(color=discord.Color.random())
-    #                     em.add_field(name='Wallet', value=wallet)
-    #                     em.add_field(name='Bank',value=f'{bank}/{maxbank}')
-    #                     em.set_author(name='Your Balance')
-    #                     em.set_thumbnail(url=user.display_avatar.url)
-    #                     await ctx.send(embed=em)
-    #                     await asyncio.sleep(4)
-    #                     two_msg = await ctx.send('Need to check anything else?')
-
-    #                     for number in numbers:
-    #                         await two_msg.add_reaction(number)
-    #                     continue
-
-    #                 elif response.emoji == '3️⃣':
-    #                     em=discord.Embed(description='**Transactions**',color=discord.Color.random())
-
-    #                     for i, transa in enumerate(transactions[::-1][:10]):
-    #                         em.add_field(name='', value=f"{i+1}. {transa}", inline=False)
-
-    #                     em.set_thumbnail(url=user.display_avatar.url)
-    #                     await ctx.send(embed=em)
-    #                     await asyncio.sleep(4)
-    #                     three_msg = await ctx.send('Need to check anything else?')
-
-    #                     for number in numbers:
-    #                         await three_msg.add_reaction(number)
-    #                     continue
-                    
-    #                 elif response.emoji == '❌':
-    #                     await ctx.send('Logging off...')
-    #                     await asyncio.sleep(4)
-    #                     await ctx.send('Account logged off.. Use the command again to check the account information.')
-    #                     break
-
-    #         except asyncio.TimeoutError:
-    #             return await ctx.send('You took too long to respond.')
-
-    #     else:
-    #         await ctx.send(f'You dont have an account. Type `^create` to create an account.')
-
-    # @commands.hybrid_command()
-    # @commands.guild_only()
-    # @commands.is_owner()
-    # @commands.before_invoke(record_usage)
-    # async def add_items(self, ctx, name:str, *, id:str, desc:str, cost:int, items):
-    #     await self.create_shop(name, id, desc,  cost, items)
-    #     await ctx.send(f'**{name}** added to the shop.')
-
-    # # @commands.hybrid_command()
-    # # @commands.guild_only()
-    # # @commands.before_invoke(record_usage)
-    # # async def shop(self, ctx):
-    # #     """Shows all items available on Shop"""
-
-    # #     find = self.db.shop.find({})
-        
-    # #     embed = discord.Embed(title='Shop', color=discord.Color.random())
-
-    # #     for i in find:
-            
-    # #         if i["items"] == 'infinite':
-    # #             embed.add_field(name=f"{i['name']} - ${i['cost']}", value=f'{i["desc"]}', inline = False)
-    # #         else:
-    # #             embed.add_field(name=f"{i['name']} - ${i['cost']} - `{i['items']}/{i['max_items']}`", value=f'{i["desc"]}', inline = False)
-    # #     await ctx.send(embed=embed)
-        
-    # @commands.hybrid_command()
-    # @commands.guild_only()
-    # @commands.before_invoke(record_usage)
-    # async def buy(self, ctx, item_name:str = None, amount:int = None):
-    #     """Buy item from shop."""
-    #     owner = 853506728519532544
-    #     if item_name is None:
-    #         return await ctx.send("Mention item name to buy.")
-        
-    #     if amount is None:
-    #         amount = 1
-       
-    #     lower_item = item_name.lower()
-    #     user = ctx.author
-        
-    #     find = self.db.mycol.find_one({"_id":user.id})
-    #     find2 = self.db.shop.find_one({"_id":item_name})######
-    #     find3 = self.db.inventory.find_one({"_id":user.id})
-        
-    #     if find is None:
-    #         return await ctx.send("You do not have an account. Use `^create` to create one.")
-    #     if find2 is None:
-    #         return await ctx.send(f"No item named **{item_name}** was available in the shop.")
-        
-    #     wallet = find["wallet"]
-    #     name = find2["name"]
-    #     cost = find2["cost"]
-    #     items = find2["items"]
-    #     max_items = find2["max_items"]
-        
-    #     if wallet < cost:
-    #         return await ctx.send(f"You do not have enough coins to buy the **{name}**")
-        
-    #     if find3 is None:
-    #         return await ctx.send("You do not have an account. Use `^create` to create an account.")
-        
-    #     if type(items) == str and items == 'infinite':
-    #         try:
-    #             check = find3[name]
-    #             new_data = f'{lower_item}'
-    #             add = check + amount
-    #             self.db.inventory.update_one({"_id":user.id}, {'$set':{f'{new_data}':int(f'{add}')}})
-    #             self.db.mycol.update_one({"_id":user.id},{"wallet": wallet-cost})
-
-    #         except KeyError:
-    #             new_data = f'{lower_item}'
-    #             new_amount = f'{amount}'
-    #             self.db.inventory.update_one({"_id":user.id}, {'$set':{f'{new_data}':int(f'{new_amount}')}})
-    #             self.db.mycol.update_one({"_id":user.id},{'$set':{"wallet": wallet-cost}})
-        
-    #     elif type(items)  == int:
-    #         try:
-    #             check = find3[name]
-    #             new_data = f'{lower_item}'
-    #             add = check + amount
-    #             self.db.inventory.update_one({"_id":user.id}, {'$set':{f'{new_data}':int(f'{add}')}})
-    #             self.db.shop.update_one({"_id":user.id}, {"$set":{"items": items-amount}})
-    #             self.db.mycol.update_one({"_id":user.id},{"wallet": wallet-cost})
-
-    #         except KeyError:
-    #             new_data = f'{lower_item}'
-    #             new_amount = f'{amount}'
-    #             self.db.inventory.update_one({"_id":user.id}, {'$set':{f'{new_data}':int(f'{new_amount}')}})
-    #             self.db.shop.update_one({"_id":user.id}, {"$set":{"items": items-amount}})
-    #             self.db.mycol.update_one({"_id":user.id},{'$set':{"wallet": wallet-cost}})
-                
-    #     await ctx.send(f"You have successfully brought **{name}**")
-        
-        
-    # @commands.hybrid_command()
-    # @commands.guild_only()
-    # @commands.before_invoke(record_usage)
-    # async def use(self, ctx, item_name:str=None,amount:int=None):
-    #     user = ctx.author
-    #     if item_name is None:
-    #         return await ctx.send("Please enter item name to use next time.")
-    #     if amount is None:
-    #         amount = 1
-        
-    #     find = self.db.mycol.find_one({"_id":user.id})
-    #     find2 = self.db.shop.find_one({"_id":item_name})
-    #     find3 = self.db.inventory.find_one({"_id":user.id})
-        
-    #     if find or find3 is None:
-    #         return await ctx.send("You do not have an account. Use `^create` to create an account.")
-        
-    #     max_bank = find['maxbank']
-    #     str_or_int = find2['items']
-    #     item = find3[item_name]
-
-    #     self.db.inventory.update_one({"_id":user.id}, {"$set":{}})
-
-
-        # find_inv = self.db.my_colfind_one({"_id":user.id})
-        # find_item_name = find_inv[item_name]
-   
-
-        # if find_inv is None:
-        #     self.db.inventory.insert_one({"_id":user.id})
-        # if find_item_name is None:
-        #     return await ctx.send("The item you entered is invalid or not avalible in your inventory.")
-        # if item_name == "banknote":
-        #     user_data = self.db.inventory.find_one({"_id":user.id})
-        #     bank_note = user_data["banknote"]
-        #     if bank_note>amount:
-        #         return await ctx.send(f"The given input is larger than the number of {item_name} avaliable in your inventory")
-        #     else:
-        #         self.db.inventory.update_one({"_id": user.id},{"set":{item_name:-amount}})
-        #         self.db.mycol.update_one({"_id": user.id},{"set":{"maxbank":+1000}})
-        #         return await ctx.send("Succesfully increased your max balan")
-
-    # @commands.hybrid_command(aliases=["elb"])
-    # @commands.guild_only()
-    # @commands.before_invoke(record_usage)
-    # async def leaderboard(self, ctx):
-    #     wallet = self.db.mycol.find().sort("wallet", pymongo.DESCENDING)
-    #     bank = self.db.mycol.find().sort("bank", pymongo.DESCENDING)
-    #     select = Select(placeholder="Choose an option",
-    #                     options=[
-    #                         discord.SelectOption(label="Wallet", emoji="👛"),
-    #                         discord.SelectOption(label="Bank", emoji="🏦")
-    #                     ])
-    #     view=View()
-    #     view.add_item(select)
-    #     embed=discord.Embed(title="Economy Leaderboard", description="To check the Economy Leaderboard please select an option below on the menu.",color=discord.Color.random())
-    #     await ctx.send(embed=embed, view=view)
-    #     for x in bank, wallet:
 
 async def setup(bot: commands.Bot):
     await bot.add_cog(Economy(bot))
