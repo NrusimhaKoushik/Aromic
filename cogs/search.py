@@ -114,7 +114,7 @@ LANGUAGES = """
 """
 
 async def record_usage(self, ctx):
-    channel_id = 1154133781758881874
+    channel_id = "COMMAND_USAGE_CHANNEL_ID"
     # Getting the channel
     channel = self.bot.get_channel(channel_id)
     embed = discord.Embed(title = 'Command Usage', description = f'**{ctx.author}** used `^{ctx.command}` at `{ctx.guild.name}`', color=ctx.author.color)
@@ -233,48 +233,6 @@ class Search(commands.Cog):
         embed2 = discord.Embed(title = "Here is your translated text", description = f"`{trs.text}`", color = discord.Color.random())
         embed2.set_footer(text = f"Translated from {detected.lang} to {lang_to}.")
         await ctx.send(embed = embed2)
-
-    # @commands.hybrid_command()
-    # @commands.guild_only()
-    # @commands.before_invoke(record_usage)
-    # async def questions(self, ctx, query = None):
-    #     categories = ["music", "sport_and_leisure", "film_and_tv", "arts_and_literature", "history", "society_and_culture", "science", "geography", "food_and_drink", "general_knowledge"]
-    #     answers = []
-    #     reactions = ["1️⃣", "2️⃣", "3️⃣", "4️⃣"]
-    #     cate = random.choice(categories)
-    #     url = 'https://the-trivia-api.com/v2/questions/'
-    #     r = requests.get(url)
-    #     data = json.loads(r.text)
-
-    #     if query is None:
-    #         try:
-    #             for sub in data:
-    #                 if sub["category"] == cate:
-    #                     with open("data.json", "w") as file:
-    #                         file.write(json.dumps(sub))
-    #                     question = sub['question']['text']
-    #                     correct_answer = sub['correctAnswer']
-    #                     incorrect_answers = sub['incorrectAnswers']
-
-    #                     answers.append(correct_answer)
-    #                     answers.append(incorrect_answers[0])
-    #                     answers.append(incorrect_answers[1])
-    #                     answers.append(incorrect_answers[2])
-    #                     print(question)
-    #                 embed = discord.Embed(title = question, color = discord.Color.random())
-                    
-    #             for i, answer in enumerate(answers[:4]):
-    #                 i += 1
-    #                 embed.add_field(name = "", value = f"{i}. {answer}", inline = False)
-    #                 embed.set_footer(text="Category: " + cate)
-                
-    #             em = await ctx.send(embed=embed)
-    #             for react in reactions:
-    #                 await em.add_reaction(react)
-
-    #         except Exception as e:
-    #             print(e)
-
 
 async def setup(bot: commands.Bot):
     await bot.add_cog(Search(bot))
