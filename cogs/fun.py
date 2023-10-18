@@ -3,7 +3,7 @@ from jokeapi import Jokes
 from discord.ext import commands
 
 async def record_usage(self, ctx):
-    channel_id = 1154133781758881874
+    channel_id = "COMMAND_USAGE_CHANNEL_ID"
     # Getting the channel
     channel = self.bot.get_channel(channel_id)
     embed = discord.Embed(title = 'Command Usage', description = f'**{ctx.author}** used `^{ctx.command}` at `{ctx.guild.name}`', color=ctx.author.color)
@@ -39,13 +39,9 @@ class Fun(commands.Cog):
         async with aiohttp.ClientSession() as session:
             request = await session.get('https://dog.ceo/api/breeds/image/random')
             dogjson = await request.json(content_type='application/json')
-            # This time we'll get the fact request as well!
-           # request2 = await session.get('https://some-random-api.ml/facts/dog')
-            #factjson = await request2.json()
 
         embed = discord.Embed(title="Doggo!", color=discord.Color.blurple())
         embed.set_image(url=dogjson['message'])
-        #embed.set_footer(text=factjson['fact'])
         await ctx.send(embed=embed)
 
     @commands.hybrid_command()
@@ -56,22 +52,13 @@ class Fun(commands.Cog):
         "Random cute cat pics."
         async with aiohttp.ClientSession() as session:
             request = requests.get('http://thecatapi.com/api/images/get.php')
-            #req = requests.get('http://catfacts-api.appspot.com/api/facts')
             if request.status_code == 200:
                 image = request.url
             else:
                 return await ctx.send("Error 404. API doesn't work well. A report was sent to the Developer to resolve the issue.")
-            # if req.status_code = 200:
-            #     fact = req.json()['facts'][0]
-            # else:
-            #     return await ctx.send('Error 404. Website may be down.')
-            # This time we'll get the fact request as well!
-            #request2 = await session.get('https://some-random-api.ml/facts/cat')
-            #factjson = await request2.json()
 
         embed = discord.Embed(title="Meow!", color=discord.Color.blurple())
         embed.set_image(url=image)
-        #embed.set_footer(text=fact)
         await ctx.send(embed=embed)
 
     @commands.hybrid_command()
