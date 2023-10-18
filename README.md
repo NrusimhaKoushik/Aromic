@@ -1,7 +1,7 @@
 # Aromic
 Aromic is a Multipurpose Discord Bot made by **Oprah#6551** - Written in **DISCORD.PY**.
 
-https://img.shields.io/pypi/v/Discord.py
+[!image](https://img.shields.io/pypi/v/Discord.py)
 
 ## Features
 - Moderation commands
