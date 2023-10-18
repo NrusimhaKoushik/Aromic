@@ -17,7 +17,7 @@ def calculate(exp):
     return result
 
 async def record_usage(self, ctx):
-    channel_id = 1154133781758881874
+    channel_id = "COMMAND_USAGE_CHANNEL_ID"
     # Getting the channel
     channel = self.bot.get_channel(channel_id)
     embed = discord.Embed(title = 'Command Usage', description = f'**{ctx.author}** used `^{ctx.command}` at `{ctx.guild.name}`', color=ctx.author.color)
@@ -111,7 +111,7 @@ class Misc(commands.Cog):
     @commands.before_invoke(record_usage)
     @commands.has_permissions(administrator = True)
     async def removeprefix(self, ctx):
-        prefix = '^'
+        prefix = 'DEFAULT_PREFIX'
         guild = ctx.guild
         if prefix is None:
             return await ctx.send('Please mention prefix!')
