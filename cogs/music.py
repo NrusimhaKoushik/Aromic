@@ -233,34 +233,6 @@ class Music(commands.Cog):
         await wavelink.NodePool.connect(client=self.bot, nodes=[node], spotify=sc)
         wavelink.Player.autoplay = False
 
-    # @commands.Cog.listener()
-    # async def on_wavelink_track_start(self, payload: wavelink.TrackEventPayload):
-    #     find = self.db.play_channel.find_one({"guild":payload.player.guild.id})
-    #     channel = find["channel"]
-    #     user = find['user']
-    #     ctx = payload.player.guild.get_channel(int(channel))
-    #     author = payload.player.guild.get_member(int(user))
-
-    #     data = await self.video_statistics(payload.track.title)
-    #     url = data[0]
-    #     channel = data[1]
-    #     duration = await self.video_duration(payload.track.title)
-
-    #     if duration[0] == 0:
-    #         hr_min_sec = f'{duration[1]}:{duration[2]}'
-    #     else:
-    #         hr_min_sec = f'{duration[0]}:{duration[1]}:{duration[2]}'
-        
-    #     try:
-    #         embed = discord.Embed(title = "PLAYER 🎶",description = f"Now playing: **[{payload.track.title}]({url})**",color = discord.Color.from_rgb(255, 255, 255))
-    #         embed.add_field(name = '🙋 Requested by', value = f'{author.mention}')
-    #         embed.add_field(name = '🎹 Music author', value = f"`{channel}`")
-    #         embed.add_field(name = '⏰ Music duration', value = f'`{hr_min_sec}`')
-    #         await ctx.send(embed=embed)
-    #         self.db.play_channel.delete_one({"song":payload.track.title})
-    #     except Exception as e:
-    #         print(e)
-
     @commands.Cog.listener()
     async def on_wavelink_track_end(self, payload: wavelink.TrackEventPayload):
         vc: wavelink.Player = payload.player
