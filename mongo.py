@@ -1,10 +1,6 @@
 from pymongo import MongoClient
-import urllib.parse
 
-username = urllib.parse.quote_plus('minecraftclyde')
-password = urllib.parse.quote_plus('Atlas.database@2004')
-
-cluster = MongoClient(['mongodb+srv://%s:%s@cluster0.kpphkhs.mongodb.net/?ssl=true' % (username, password)])
+cluster = MongoClient('YOUR_MONGO_CONNECTION_URL')
 
 class db:
     mydb = cluster['database']
