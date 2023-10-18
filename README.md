@@ -2,6 +2,9 @@
 Aromic is a Multipurpose Discord Bot made by **Oprah#6551**.
 
 > [!IMPORTANT]
+> ```
+> pip install -r requirements.txt
+> ```
 > Don't forget to change the **DISCORD BOT TOKEN** in `config.py`
 > ```
 > TOKEN = "YOUR_DISCORD_BOT_TOKEN"
