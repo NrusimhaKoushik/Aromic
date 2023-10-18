@@ -26,7 +26,7 @@ class Events(commands.Cog):
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
         try:
-            channel = self.bot.get_channel(1145264073865437194)
+            channel = self.bot.get_channel("ERROR_LOG_CHANNEL_ID")
 
             if isinstance(error, commands.MissingRequiredArgument):
                 missing = error.param.name
@@ -117,48 +117,10 @@ class Events(commands.Cog):
                 if user_mentioned.name == member.name:
                     await message.reply(f"**{member.display_name}** is AFK | Reason : **{reason}**")
 
-        # amount = 1000
-        # banknote = 3
-        
-        # if message.content.startswith('Thankyou'):
-        #     msg = get(user_mentioned.id for user_mentioned in message.mentions)
-        #     # await channel2.send(msg)
-
-        #     find = self.db.mycol.find_one({"_id":user_mentioned.id})
-
-        #     if find is None:
-        #         return
-            
-        #     money = find["wallet"]
-        #     inv = find["inventory"]
-
-        #     self.db.mycol.update_one({"_id":user_mentioned.id}, {"$set":{"wallet":money+1000}})
-            
-
-        #     async with aiosqlite.connect("main.db") as db:
-        #         async with db.cursor() as cursor:
-
-        #             await cursor.execute('SELECT wallet FROM bank WHERE user = ?', (msg,))
-        #             data=await cursor.fetchone()
-        #             if data:
-        #                 await cursor.execute('UPDATE bank SET wallet = ? WHERE user = ?',(data[0] + amount, msg,))
-
-        #             await cursor.execute('SELECT banknote FROM bank WHERE user = ?', (msg,))
-        #             data = await cursor.fetchone()
-        #             if data:
-        #                 await cursor.execute('UPDATE bank SET banknote = ? WHERE user = ?', (banknote, msg,))
-
-        #         await db.commit()
-
-        #     for user_mentioned in message.mentions:
-        #         embed=discord.Embed(title='Thankyou for voting!', description='', colour = discord.Colour(0xffffff))
-        #         embed.add_field(name='You just got `3 Banknotes and 1k coins` for voting on discordbotlist.com',value='')
-        #         await user_mentioned.send(embed=embed)
-
     @commands.Cog.listener()
     async def on_guild_join(self, guild):
-        channel2 = self.bot.get_channel(1145264073865437194)
-        channel3 = self.bot.get_channel(887914584621600792)
+        channel2 = self.bot.get_channel("ERROR_LOG_CHANNEL_ID")
+        channel3 = self.bot.get_channel("JOIN_INFO_CHANNEL_ID")
         priority_channels = []
         channels = []
         for channel in guild.channels:
@@ -176,7 +138,7 @@ class Events(commands.Cog):
                 if isinstance(x, TextChannel) and x.permissions_for(guild.me).send_messages
             )
 
-            embed = discord.Embed(title="",description=f"Hey Users. I am **Aromic**.\n\nType `^help` for more Information.\n\n**Support Server**\n[Click here](https://discord.gg/pdbvV6h5cS) for support.", color = discord.Color.blurple())
+            embed = discord.Embed(title="",description=f"Hey Users. I am **Aromic**.\n\nType `^help` for more Information.\n\n**Support Server** for support.", color = discord.Color.blurple())
             embed.set_footer(text="Enjoy the commands!",)
             embed.set_thumbnail(url=self.bot.user.display_avatar)
             await channel.send(embed=embed)
