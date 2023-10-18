@@ -114,7 +114,7 @@ LI : Liechtenstein
 PG : Papua New Guinea
 """
 async def record_usage(self, ctx):
-    channel_id = 1154133781758881874
+    channel_id = "COMMAND_USAGE_CHANNEL_ID"
     # Getting the channel
     channel = self.bot.get_channel(channel_id)
     embed = discord.Embed(title = 'Command Usage', description = f'**{ctx.author}** used `^{ctx.command}` at `{ctx.guild.name}`', color=ctx.author.color)
@@ -129,11 +129,6 @@ class Youtube(commands.Cog):
     @commands.before_invoke(record_usage)
     async def ytsearch(self, ctx, *, query:str):
         "Rich Youtube search command."
-        # if count <= 0:
-        #     return await ctx.send(f"Maximum resuts should not be **{count}**")
-        # if count == None:
-        #     count = 5
-        # url = f"https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults={count}&q={query}&safeSearch=strict&type=video&key={API_KEY}"
         url = f"https://www.googleapis.com/youtube/v3/search?part=snippet&q={query}&safeSearch=strict&type=video&key={API_KEY}"
         
         r = requests.get(url)
@@ -162,7 +157,6 @@ class Youtube(commands.Cog):
         embed.set_image(url=channel_data["thumbnails"]["medium"]["url"])
         embed.set_footer(text=f"Likes: {likes}, Views: {views}")
 
-        # send the embed to a discord channel
         await ctx.send(embed=embed)
     
     @commands.hybrid_command(with_app_command=True)
@@ -189,21 +183,7 @@ class Youtube(commands.Cog):
         embed = discord.Embed(title=channel_data["title"], url = channel_url, description=channel_data["description"])
         embed.set_thumbnail(url=channel_data["thumbnails"]["high"]["url"])
 
-        # send the embed to a discord channel
         await ctx.send(embed=embed)
-
-        #video_data = r2.json()["items"][0]["statistics"]
-
-        #likes = video_data["likeCount"]
-        #views = video_data["viewCount"]
-
-        #embed = discord.Embed(title=channel_data["title"],url=video_url,description=channel_data["description"])
-        #embed.set_author(name=channel_data["channelTitle"],url=channel_url)
-        #embed.set_image(url=channel_data["thumbnails"]["medium"]["url"])
-        #embed.set_footer(text=f"Likes: {likes}, Views: {views}")
-
-        # send the embed to a discord channel
-        #await ctx.send(embed=embed)
 
     @commands.hybrid_command(with_app_command=True)
     @commands.guild_only()
@@ -224,14 +204,12 @@ class Youtube(commands.Cog):
         with open("data.json", "w") as file:
             file.write(json.dumps(data))
 
-        # Create an embed containing the top 5 trending videos
         embed = discord.Embed(title=f"Top 5 Trending Videos in {region.upper()}")
         for i, video in enumerate(trending_videos[:5]):
             video_title = video["snippet"]["title"]
             video_url = f"https://www.youtube.com/watch?v={video['id']}"
             embed.add_field(name=f"{i+1}. {video_title}", value=video_url,inline=False)
 
-        # Send the embed to a discord channel
         await ctx.send(embed=embed)
 
 
