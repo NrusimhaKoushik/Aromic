@@ -1,10 +1,12 @@
 # Aromic
 Aromic is a Multipurpose Discord Bot made by **Oprah#6551** - Written in **DISCORD.PY**.
 
-  <picture align = "centre">
+  <picture>
     <source media="(prefers-color-scheme: dark)" srcset="https://cdn.discordapp.com/attachments/922736234500075523/1164210732045455430/AROMIC-removebg-preview.png?ex=654262bc&is=652fedbc&hm=62d709fc182814161df3f51285139f41dfe911832ad6a483bdce0e8fda8fb786&">
     <source media="(prefers-color-scheme: light)" srcset="https://cdn.discordapp.com/attachments/922736234500075523/1164210732045455430/AROMIC-removebg-preview.png?ex=654262bc&is=652fedbc&hm=62d709fc182814161df3f51285139f41dfe911832ad6a483bdce0e8fda8fb786&">
-    <img alt="" src="https://cdn.discordapp.com/attachments/922736234500075523/1164210732045455430/AROMIC-removebg-preview.png?ex=654262bc&is=652fedbc&hm=62d709fc182814161df3f51285139f41dfe911832ad6a483bdce0e8fda8fb786&">
+    <p align="center">
+      <img src="[http://material-bread.org/logo-shadow.svg](https://cdn.discordapp.com/attachments/922736234500075523/1164210732045455430/AROMIC-removebg-preview.png?ex=654262bc&is=652fedbc&hm=62d709fc182814161df3f51285139f41dfe911832ad6a483bdce0e8fda8fb786&)" alt="">
+    </p>
   </picture>
 
 ## Features
